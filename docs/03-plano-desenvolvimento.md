@@ -68,27 +68,27 @@ vibe-coding-ide/
 
 #### 1.3.1 Setup React Básico
 
-- [ ] Configurar componente App principal
-- [ ] Implementar roteamento básico
-- [ ] Configurar Context Providers
-- [ ] Setup de temas básicos (claro/escuro)
-- [ ] Implementar componentes base (Button, Input, etc.)
+- [x] Configurar componente App principal
+- [x] Implementar roteamento básico
+- [x] Configurar Context Providers
+- [x] Setup de temas básicos (claro/escuro)
+- [x] Implementar componentes base (Button, Input, etc.)
 
 #### 1.3.2 Estado Global
 
-- [ ] Configurar Redux Toolkit
-- [ ] Definir slices básicos (ui, project, agents)
-- [ ] Implementar middleware customizado
-- [ ] Configurar persist para configurações
-- [ ] Setup de DevTools
+- [x] Configurar Redux Toolkit
+- [x] Definir slices básicos (ui, project, agents)
+- [x] Implementar middleware customizado
+- [x] Configurar persist para configurações
+- [x] Setup de DevTools
 
 #### 1.3.3 Layout Básico
 
-- [ ] Criar componente de layout principal
-- [ ] Implementar header/menu bar
-- [ ] Criar sidebar básica
-- [ ] Implementar status bar
-- [ ] Sistema de abas básico
+- [x] Criar componente de layout principal
+- [x] Implementar header/menu bar
+- [x] Criar sidebar básica
+- [x] Implementar status bar
+- [x] Sistema de abas básico
 
 ## **FASE 2: Editor e Gerenciamento de Arquivos (Semanas 4-6)**
 
