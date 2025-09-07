@@ -1,38 +1,63 @@
 import { app, BrowserWindow } from 'electron';
-import * as path from 'path';
+import { WindowManager } from './windowManager';
+import './ipc/handlers';
+
+const windowManager = WindowManager.getInstance();
 
 const createWindow = (): void => {
-  const mainWindow = new BrowserWindow({
-    height: 800,
-    width: 1200,
-    webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-    },
-    icon: path.join(__dirname, '../../assets/icon.png'),
-  });
-
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('http://localhost:3000');
-    mainWindow.webContents.openDevTools();
-  } else {
-    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'));
-  }
+  windowManager.createMainWindow();
 };
 
+// This method will be called when Electron has finished initialization
 app.whenReady().then(() => {
   createWindow();
 
   app.on('activate', () => {
+    // On macOS it's common to re-create a window in the app when the
+    // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
 });
 
+// Quit when all windows are closed, except on macOS
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
+
+// Security: Prevent new window creation
+app.on('web-contents-created', (_, contents) => {
+  contents.setWindowOpenHandler(() => {
+    return { action: 'deny' };
+  });
+});
+
+// Security: Prevent navigation to external URLs
+app.on('web-contents-created', (_, contents) => {
+  contents.on('will-navigate', (event, navigationUrl) => {
+    const parsedUrl = new URL(navigationUrl);
+
+    if (parsedUrl.origin !== 'http://localhost:3000' && parsedUrl.origin !== 'file://') {
+      event.preventDefault();
+    }
+  });
+});
+
+// Handle certificate errors (security)
+app.on('certificate-error', (event, _webContents, url, _error, _certificate, callback) => {
+  // In development, ignore certificate errors for localhost
+  if (process.env.NODE_ENV === 'development' && url.startsWith('http://localhost')) {
+    event.preventDefault();
+    callback(true);
+  } else {
+    callback(false);
+  }
+});
+
+// Set app user model ID for Windows
+if (process.platform === 'win32') {
+  app.setAppUserModelId('com.vibecodingide.app');
+}

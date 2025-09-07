@@ -42,27 +42,27 @@ vibe-coding-ide/
 
 #### 1.2.1 Window Management
 
-- [ ] Criar BrowserWindow principal
-- [ ] Configurar DevTools para desenvolvimento
-- [ ] Implementar menu da aplicação
-- [ ] Configurar ícone e metadata da aplicação
-- [ ] Implementar gerenciamento de múltiplas janelas (se necessário)
+- [x] Criar BrowserWindow principal
+- [x] Configurar DevTools para desenvolvimento
+- [x] Implementar menu da aplicação
+- [x] Configurar ícone e metadata da aplicação
+- [x] Implementar gerenciamento de múltiplas janelas (se necessário)
 
 #### 1.2.2 IPC (Inter-Process Communication)
 
-- [ ] Definir interfaces para comunicação main/renderer
-- [ ] Implementar handlers básicos de IPC
-- [ ] Configurar sistema de eventos assíncronos
-- [ ] Implementar logging centralizado
-- [ ] Configurar tratamento de erros
+- [x] Definir interfaces para comunicação main/renderer
+- [x] Implementar handlers básicos de IPC
+- [x] Configurar sistema de eventos assíncronos
+- [x] Implementar logging centralizado
+- [x] Configurar tratamento de erros
 
 #### 1.2.3 Segurança
 
-- [ ] Configurar Content Security Policy (CSP)
-- [ ] Desabilitar node integration no renderer
-- [ ] Configurar context isolation
-- [ ] Implementar preload scripts seguros
-- [ ] Configurar proteções contra XSS
+- [x] Configurar Content Security Policy (CSP)
+- [x] Desabilitar node integration no renderer
+- [x] Configurar context isolation
+- [x] Implementar preload scripts seguros
+- [x] Configurar proteções contra XSS
 
 ### **1.3 Base do Renderer Process (Semana 2-3)**
 
