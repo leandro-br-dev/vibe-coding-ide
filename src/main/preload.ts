@@ -1,6 +1,45 @@
-import { contextBridge, ipcRenderer } from 'electron';
-import { IPC_CHANNELS, IPCResponse } from '../shared/types/ipc';
+const { contextBridge, ipcRenderer } = require('electron');
+
+// Define IPC channels directly in preload to avoid module loading issues
+const IPC_CHANNELS = {
+  // File System
+  FS_READ_FILE: 'fs:readFile',
+  FS_WRITE_FILE: 'fs:writeFile',
+  FS_READ_DIR: 'fs:readDir',
+  FS_WATCH_FILE: 'fs:watchFile',
+  FS_UNWATCH_FILE: 'fs:unwatchFile',
+
+  // Project Management
+  PROJECT_OPEN: 'project:open',
+  PROJECT_CLOSE: 'project:close',
+  PROJECT_GET_INFO: 'project:getInfo',
+
+  // Agent System
+  AGENT_SEND: 'agent:send',
+  AGENT_RESPONSE: 'agent:response',
+  AGENT_ERROR: 'agent:error',
+  AGENT_STATUS: 'agent:status',
+
+  // Window Management
+  WINDOW_MINIMIZE: 'window:minimize',
+  WINDOW_MAXIMIZE: 'window:maximize',
+  WINDOW_CLOSE: 'window:close',
+
+  // Settings
+  SETTINGS_GET: 'settings:get',
+  SETTINGS_SET: 'settings:set',
+  SETTINGS_RESET: 'settings:reset',
+
+  // Log
+  LOG_ERROR: 'log:error',
+  LOG_WARN: 'log:warn',
+  LOG_INFO: 'log:info',
+  LOG_DEBUG: 'log:debug',
+};
+
+// Type imports for TypeScript
 import type {
+  IPCResponse,
   FileReadRequest,
   FileWriteRequest,
   DirectoryReadRequest,

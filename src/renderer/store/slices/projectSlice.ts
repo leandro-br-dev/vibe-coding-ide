@@ -1,16 +1,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface FileInfo {
+export interface FileInfo {
   name: string;
   path: string;
   type: 'file' | 'directory';
-  size?: number;
-  modified?: number;
-  children?: FileInfo[];
-  isExpanded?: boolean;
+  size?: number | undefined;
+  modified?: number | undefined;
+  children?: FileInfo[] | undefined;
+  isExpanded?: boolean | undefined;
 }
 
-interface ProjectInfo {
+export interface ProjectInfo {
   name: string;
   path: string;
   type: 'javascript' | 'typescript' | 'python' | 'java' | 'csharp' | 'go' | 'rust' | 'other';
@@ -28,7 +28,7 @@ export interface ProjectState {
 
   // File explorer
   files: FileInfo[];
-  expandedFolders: Set<string>;
+  expandedFolders: string[];
   selectedFiles: string[];
 
   // Recent projects
@@ -65,7 +65,7 @@ const initialState: ProjectState = {
 
   // File explorer
   files: [],
-  expandedFolders: new Set(),
+  expandedFolders: [],
   selectedFiles: [],
 
   // Recent projects
@@ -108,7 +108,7 @@ export const projectSlice = createSlice({
       state.currentProject = null;
       state.isProjectOpen = false;
       state.files = [];
-      state.expandedFolders.clear();
+      state.expandedFolders = [];
       state.selectedFiles = [];
       state.gitStatus = null;
     },
@@ -132,10 +132,14 @@ export const projectSlice = createSlice({
       updateNode(state.files);
     },
     toggleFolder: (state, action: PayloadAction<string>) => {
-      if (state.expandedFolders.has(action.payload)) {
-        state.expandedFolders.delete(action.payload);
+      const folderPath = action.payload;
+      const index = state.expandedFolders.indexOf(folderPath);
+      if (index !== -1) {
+        // Remove folder from expanded list
+        state.expandedFolders.splice(index, 1);
       } else {
-        state.expandedFolders.add(action.payload);
+        // Add folder to expanded list
+        state.expandedFolders.push(folderPath);
       }
     },
     setSelectedFiles: (state, action: PayloadAction<string[]>) => {

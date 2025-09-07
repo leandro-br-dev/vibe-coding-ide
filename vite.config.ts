@@ -9,19 +9,21 @@ export default defineConfig({
   build: {
     outDir: '../../dist/renderer',
     emptyOutDir: true,
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'src/renderer/index.html'),
-      },
-    },
   },
   server: {
     port: 3000,
     strictPort: true,
+    host: 'localhost',
   },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src/renderer'),
     },
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    'process.platform': JSON.stringify(process.platform),
+    'process.env': JSON.stringify(process.env),
+    global: 'globalThis',
   },
 });

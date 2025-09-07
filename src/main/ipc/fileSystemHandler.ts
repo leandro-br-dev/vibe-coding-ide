@@ -98,12 +98,21 @@ export class FileSystemHandler {
     recursive: boolean
   ): Promise<void> {
     const entries = await fs.readdir(dirPath, { withFileTypes: true });
+    
+    // Load .gitignore patterns if exists
+    const gitignorePatterns = await this.loadGitignorePatterns(dirPath);
 
     for (const entry of entries) {
       const fullPath = path.join(dirPath, entry.name);
+      const relativePath = path.relative(dirPath, fullPath);
 
-      // Skip hidden files and node_modules
-      if (entry.name.startsWith('.') || entry.name === 'node_modules') {
+      // Skip files matching .gitignore patterns
+      if (this.isIgnoredByGitignore(relativePath, gitignorePatterns)) {
+        continue;
+      }
+
+      // Skip hidden files and node_modules (except .gitignore itself)
+      if ((entry.name.startsWith('.') && entry.name !== '.gitignore') || entry.name === 'node_modules') {
         continue;
       }
 
@@ -128,6 +137,64 @@ export class FileSystemHandler {
         logger.warn('Failed to get file stats:', { path: fullPath, error });
       }
     }
+  }
+
+  private async loadGitignorePatterns(dirPath: string): Promise<string[]> {
+    try {
+      const gitignorePath = path.join(dirPath, '.gitignore');
+      const content = await fs.readFile(gitignorePath, 'utf8');
+      
+      return content
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line && !line.startsWith('#'));
+    } catch (error) {
+      // .gitignore doesn't exist or can't be read
+      return [];
+    }
+  }
+
+  private isIgnoredByGitignore(relativePath: string, patterns: string[]): boolean {
+    for (const pattern of patterns) {
+      if (this.matchesGitignorePattern(relativePath, pattern)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private matchesGitignorePattern(filePath: string, pattern: string): boolean {
+    // Simple gitignore pattern matching
+    // This is a basic implementation - a full implementation would use minimatch
+    
+    // Convert gitignore pattern to regex-like matching
+    const normalizedPath = filePath.replace(/\\/g, '/');
+    const normalizedPattern = pattern.replace(/\\/g, '/');
+    
+    // Exact match
+    if (normalizedPattern === normalizedPath) {
+      return true;
+    }
+    
+    // Directory match (ends with /)
+    if (normalizedPattern.endsWith('/')) {
+      const dirPattern = normalizedPattern.slice(0, -1);
+      return normalizedPath.startsWith(dirPattern + '/') || normalizedPath === dirPattern;
+    }
+    
+    // Wildcard match
+    if (normalizedPattern.includes('*')) {
+      const regexPattern = normalizedPattern
+        .replace(/\./g, '\\.')
+        .replace(/\*/g, '.*');
+      const regex = new RegExp('^' + regexPattern + '$');
+      return regex.test(normalizedPath);
+    }
+    
+    // Substring match for directories
+    return normalizedPath.startsWith(normalizedPattern + '/') || 
+           normalizedPath.endsWith('/' + normalizedPattern) ||
+           normalizedPath.includes('/' + normalizedPattern + '/');
   }
 
   private isPathSafe(filePath: string): boolean {

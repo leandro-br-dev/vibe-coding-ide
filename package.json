@@ -10,7 +10,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "concurrently \"npm run dev:renderer\" \"wait-on http://localhost:3000 && npm run dev:main\"",
+    "dev": "npm run dev:clean && concurrently \"npm run dev:renderer\" \"wait-on http://localhost:3000 && npm run dev:main\"",
+    "dev:clean": "npx kill-port 3000 || true",
     "dev:renderer": "vite",
     "dev:main": "electron .",
     "start": "electron-forge start",

@@ -77,7 +77,7 @@ export interface FileInfo {
 
 // Project Types
 export interface ProjectOpenRequest {
-  projectPath: string;
+  projectPath: string | '';
 }
 
 export interface ProjectInfo {

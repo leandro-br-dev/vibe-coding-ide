@@ -1,4 +1,4 @@
-import { IpcMainInvokeEvent } from 'electron';
+import { IpcMainInvokeEvent, dialog } from 'electron';
 import { promises as fs } from 'fs';
 import * as path from 'path';
 import { ProjectOpenRequest, ProjectInfo, FileInfo } from '../../shared/types/ipc';
@@ -10,7 +10,25 @@ export class ProjectHandler {
   private currentProject: ProjectInfo | null = null;
 
   async openProject(_event: IpcMainInvokeEvent, request: ProjectOpenRequest): Promise<ProjectInfo> {
-    const { projectPath } = request;
+    let projectPath: string = request.projectPath;
+
+    // If no path provided, show dialog to select folder
+    if (!projectPath) {
+      const result = await dialog.showOpenDialog({
+        properties: ['openDirectory'],
+        title: 'Open Project Folder'
+      });
+
+      if (result.canceled || !result.filePaths.length) {
+        throw new Error('No folder selected');
+      }
+
+      projectPath = result.filePaths[0] as string;
+    }
+
+    if (!projectPath || projectPath.trim() === '') {
+      throw new Error('No project path provided');
+    }
 
     logger.info('Opening project:', { projectPath });
 

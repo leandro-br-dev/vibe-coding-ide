@@ -96,30 +96,30 @@ vibe-coding-ide/
 
 #### 2.1.1 File Explorer
 
-- [ ] Implementar árvore de arquivos
-- [ ] Sistema de abertura de pastas/projetos
-- [ ] Navegação por diretórios
-- [ ] Contextual menus (criar, deletar, renomear)
-- [ ] Drag & drop de arquivos
-- [ ] Busca de arquivos
-- [ ] Filtros por tipo de arquivo
+- [x] Implementar árvore de arquivos
+- [x] Sistema de abertura de pastas/projetos
+- [x] Navegação por diretórios
+- [x] Contextual menus (criar, deletar, renomear)
+- [x] Drag & drop de arquivos
+- [x] Busca de arquivos
+- [x] Filtros por tipo de arquivo
 
 #### 2.1.2 File System Operations
 
-- [ ] Leitura de arquivos assíncrona
-- [ ] Gravação de arquivos com backup
-- [ ] Watch de mudanças em arquivos
-- [ ] Detecção de mudanças externas
-- [ ] Sistema de cache de arquivos
-- [ ] Validação de permissões
+- [x] Leitura de arquivos assíncrona
+- [x] Gravação de arquivos com backup
+- [x] Watch de mudanças em arquivos
+- [x] Detecção de mudanças externas
+- [x] Sistema de cache de arquivos
+- [x] Validação de permissões
 
 #### 2.1.3 Project Management
 
-- [ ] Detecção automática de tipo de projeto
-- [ ] Carregamento de configurações de projeto
-- [ ] Support para .gitignore
-- [ ] Indexação de arquivos para busca
-- [ ] Bookmarks e favoritos
+- [x] Detecção automática de tipo de projeto
+- [x] Carregamento de configurações de projeto
+- [x] Support para .gitignore
+- [x] Indexação de arquivos para busca
+- [x] Bookmarks e favoritos
 
 ### **2.2 Editor de Código (Semana 5)**
 

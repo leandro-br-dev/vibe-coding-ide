@@ -2,7 +2,23 @@ import { app, BrowserWindow } from 'electron';
 import { WindowManager } from './windowManager';
 import './ipc/handlers';
 
+// Prevent multiple instances
+const gotTheLock = app.requestSingleInstanceLock();
+
 const windowManager = WindowManager.getInstance();
+
+if (!gotTheLock) {
+  app.quit();
+} else {
+  app.on('second-instance', () => {
+    // Someone tried to run a second instance, focus our window instead
+    const mainWindow = windowManager.getMainWindow();
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) mainWindow.restore();
+      mainWindow.focus();
+    }
+  });
+}
 
 const createWindow = (): void => {
   windowManager.createMainWindow();
