@@ -125,21 +125,21 @@ vibe-coding-ide/
 
 #### 2.2.1 Monaco Editor Integration
 
-- [ ] Integrar Monaco Editor
-- [ ] Configurar syntax highlighting
-- [ ] Implementar auto-completion básico
-- [ ] Configurar temas de sintaxe
-- [ ] Support para múltiplas linguagens
-- [ ] Configurar keybindings
+- [x] Integrar Monaco Editor
+- [x] Configurar syntax highlighting
+- [x] Implementar auto-completion básico
+- [x] Configurar temas de sintaxe
+- [x] Support para múltiplas linguagens
+- [x] Configurar keybindings
 
 #### 2.2.2 Editor Features
 
-- [ ] Sistema de abas para arquivos
+- [x] Sistema de abas para arquivos
 - [ ] Split view (horizontal/vertical)
-- [ ] Busca e substituição
-- [ ] Go to line/symbol
-- [ ] Code folding
-- [ ] Minimap
+- [x] Busca e substituição
+- [x] Go to line/symbol
+- [x] Code folding
+- [x] Minimap
 
 #### 2.2.3 Editor State Management
 

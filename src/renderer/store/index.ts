@@ -6,6 +6,7 @@ import { uiSlice } from './slices/uiSlice';
 import { projectSlice } from './slices/projectSlice';
 import { agentsSlice } from './slices/agentsSlice';
 import { settingsSlice } from './slices/settingsSlice';
+import { editorSlice } from './slices/editorSlice';
 import { loggerMiddleware } from './middleware/loggerMiddleware';
 
 const rootReducer = combineReducers({
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   project: projectSlice.reducer,
   agents: agentsSlice.reducer,
   settings: settingsSlice.reducer,
+  editor: editorSlice.reducer,
 });
 
 const persistConfig = {

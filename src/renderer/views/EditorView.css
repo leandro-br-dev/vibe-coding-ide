@@ -1,0 +1,12 @@
+/* Editor View Styles */
+.editor-view {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg-primary, #ffffff);
+}
+
+/* Dark theme support */
+[data-theme="dark"] .editor-view {
+  --color-bg-primary: #1e1e1e;
+}

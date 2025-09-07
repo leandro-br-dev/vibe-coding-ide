@@ -14,6 +14,9 @@ export default defineConfig({
     port: 3000,
     strictPort: true,
     host: 'localhost',
+    fs: {
+      allow: ['../..']
+    }
   },
   resolve: {
     alias: {
@@ -26,4 +29,10 @@ export default defineConfig({
     'process.env': JSON.stringify(process.env),
     global: 'globalThis',
   },
+  optimizeDeps: {
+    include: ['@monaco-editor/react', 'monaco-editor'],
+  },
+  worker: {
+    format: 'es'
+  }
 });

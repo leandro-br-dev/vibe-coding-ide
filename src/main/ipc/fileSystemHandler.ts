@@ -148,7 +148,7 @@ export class FileSystemHandler {
         .split('\n')
         .map(line => line.trim())
         .filter(line => line && !line.startsWith('#'));
-    } catch (error) {
+    } catch {
       // .gitignore doesn't exist or can't be read
       return [];
     }

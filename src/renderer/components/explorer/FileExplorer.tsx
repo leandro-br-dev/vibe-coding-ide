@@ -212,6 +212,19 @@ export const FileExplorer: React.FC = () => {
     return () => document.removeEventListener('click', handleClick);
   }, [hideContextMenu]);
 
+  // Listen for folder open trigger from editor
+  useEffect(() => {
+    const handleTriggerFolderOpen = () => {
+      handleOpenFolder();
+    };
+
+    window.addEventListener('triggerFolderOpen' as any, handleTriggerFolderOpen);
+    
+    return () => {
+      window.removeEventListener('triggerFolderOpen' as any, handleTriggerFolderOpen);
+    };
+  }, [handleOpenFolder]);
+
   if (!currentProject) {
     return (
       <div className="file-explorer">

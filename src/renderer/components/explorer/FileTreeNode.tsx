@@ -32,12 +32,27 @@ export const FileTreeNode: React.FC<FileTreeNodeProps> = memo(({
     onSelect(file.path, e.ctrlKey || e.metaKey);
   };
 
-  const handleDoubleClick = (e: React.MouseEvent) => {
+  const handleDoubleClick = async (e: React.MouseEvent) => {
     e.stopPropagation();
     
     if (file.type === 'file') {
-      // TODO: Open file in editor
-      console.log('Open file:', file.path);
+      try {
+        // Load file content and open in editor
+        const content = await window.electronAPI?.readFile({
+          filePath: file.path,
+          encoding: 'utf8'
+        });
+        
+        if (content !== undefined) {
+          // Dispatch action to open file in editor
+          const event = new CustomEvent('openFileInEditor', {
+            detail: { filePath: file.path, content }
+          });
+          window.dispatchEvent(event);
+        }
+      } catch (error) {
+        console.error('Failed to open file:', error);
+      }
     } else {
       onToggle(file.path);
     }
