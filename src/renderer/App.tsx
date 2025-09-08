@@ -8,6 +8,7 @@ import { ThemeProvider } from './contexts/ThemeContext';
 import { AppLayout } from './components/layout/AppLayout';
 import { AppRoutes } from './routes/AppRoutes';
 import { ErrorBoundary } from './components/common/ErrorBoundary';
+import { useFileNavigation } from './hooks/useFileNavigation';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +32,17 @@ const LoadingScreen = () => (
   </div>
 );
 
+const AppContent: React.FC = () => {
+  // Use the file navigation hook here
+  useFileNavigation();
+  
+  return (
+    <AppLayout>
+      <AppRoutes />
+    </AppLayout>
+  );
+};
+
 export const App: React.FC = () => {
   return (
     <ErrorBoundary>
@@ -39,9 +51,7 @@ export const App: React.FC = () => {
           <QueryClientProvider client={queryClient}>
             <ThemeProvider>
               <BrowserRouter>
-                <AppLayout>
-                  <AppRoutes />
-                </AppLayout>
+                <AppContent />
               </BrowserRouter>
             </ThemeProvider>
           </QueryClientProvider>

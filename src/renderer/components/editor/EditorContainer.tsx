@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store';
-import { openFile, updateFileContent } from '../../store/slices/editorSlice';
+import { updateFileContent } from '../../store/slices/editorSlice';
 import { EditorTabs } from './EditorTabs';
 import { CodeEditor } from './CodeEditor';
 import './EditorContainer.css';
@@ -12,21 +12,6 @@ export const EditorContainer: React.FC = () => {
   const [welcomeVisible, setWelcomeVisible] = useState(true);
 
   const activeFileData = openFiles.find(file => file.filePath === activeFile);
-
-  // Listen for file open events from the file explorer
-  useEffect(() => {
-    const handleOpenFile = (event: CustomEvent<{ filePath: string; content: string }>) => {
-      const { filePath, content } = event.detail;
-      dispatch(openFile({ filePath, content }));
-      setWelcomeVisible(false);
-    };
-
-    window.addEventListener('openFileInEditor' as any, handleOpenFile);
-    
-    return () => {
-      window.removeEventListener('openFileInEditor' as any, handleOpenFile);
-    };
-  }, [dispatch]);
 
   // Hide welcome screen when files are opened
   useEffect(() => {
@@ -75,13 +60,12 @@ export const EditorContainer: React.FC = () => {
                     📁 Open Folder
                   </button>
                   <button className="action-btn" onClick={() => {
-                    // Create new file
+                    // Create new file and stay in current view (editor will be shown)
                     const newFileName = `untitled-${Date.now()}.txt`;
-                    dispatch(openFile({ 
-                      filePath: newFileName, 
-                      content: '',
-                      language: 'plaintext'
-                    }));
+                    const event = new CustomEvent('openFileInEditor', {
+                      detail: { filePath: newFileName, content: '' }
+                    });
+                    window.dispatchEvent(event);
                   }}>
                     📄 New File
                   </button>
